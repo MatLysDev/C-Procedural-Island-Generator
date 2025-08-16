@@ -1,0 +1,24 @@
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build output
+Debug/
+Release/
+x64/
+*.obj
+*.exe
+*.dll
+*.pdb
+
+# Temporary files
+*.log
+*.tmp
+
+# Keep your source and headers
+# *.cpp, *.h
+# External library source (not binaries)
+external_libraries/
