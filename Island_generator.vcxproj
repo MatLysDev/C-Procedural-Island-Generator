@@ -153,13 +153,14 @@
     <ClCompile Include="imgui\imgui_draw.cpp" />
     <ClCompile Include="imgui\imgui_tables.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
-    <ClCompile Include="IslandFalloff.cpp" />
-    <ClCompile Include="Island_generator.cpp" />
-    <ClCompile Include="Noise.cpp" />
-    <ClCompile Include="NoiseManager.cpp" />
-    <ClCompile Include="TileManager.cpp" />
-    <ClCompile Include="UIManager.cpp" />
-    <ClCompile Include="WindowManager.cpp" />
+    <ClCompile Include="src\IslandFalloff.cpp" />
+    <ClCompile Include="src\Island_generator.cpp" />
+    <ClCompile Include="src\Noise.cpp" />
+    <ClCompile Include="src\NoiseManager.cpp" />
+    <ClCompile Include="src\SaveManager.cpp" />
+    <ClCompile Include="src\TileManager.cpp" />
+    <ClCompile Include="src\UIManager.cpp" />
+    <ClCompile Include="src\WindowManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imconfig-SFML.h" />
@@ -171,15 +172,20 @@
     <ClInclude Include="imgui\imstb_rectpack.h" />
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
-    <ClInclude Include="IslandFalloff.hpp" />
-    <ClInclude Include="MathUtility.hpp" />
-    <ClInclude Include="Noise.hpp" />
-    <ClInclude Include="NoiseManager.hpp" />
-    <ClInclude Include="NoiseParams.hpp" />
-    <ClInclude Include="Tile.hpp" />
-    <ClInclude Include="TileManager.hpp" />
-    <ClInclude Include="UIManager.hpp" />
-    <ClInclude Include="WindowManager.hpp" />
+    <ClInclude Include="SaveManager.hpp" />
+    <ClInclude Include="src\IslandFalloff.hpp" />
+    <ClInclude Include="src\MathUtility.hpp" />
+    <ClInclude Include="src\Noise.hpp" />
+    <ClInclude Include="src\NoiseManager.hpp" />
+    <ClInclude Include="src\NoiseParams.hpp" />
+    <ClInclude Include="src\SaveManager.hpp" />
+    <ClInclude Include="src\Tile.hpp" />
+    <ClInclude Include="src\TileManager.hpp" />
+    <ClInclude Include="src\UIManager.hpp" />
+    <ClInclude Include="src\WindowManager.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

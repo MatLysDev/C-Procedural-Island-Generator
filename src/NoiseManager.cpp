@@ -2,7 +2,7 @@
 #include <vector>
 #include <algorithm>
 
-sf::Image NoiseManager::GenerateIslandImage(const NoiseParams& params) {
+sf::Image NoiseManager::GenerateIslandImage(const NoiseParams& params, TileManager& tileManager) {
     NoiseGenerator fractalNoise;
     IslandFalloff falloff;
 
@@ -12,7 +12,7 @@ sf::Image NoiseManager::GenerateIslandImage(const NoiseParams& params) {
         params.scale, params.octaves, params.persistence, params.lacunarity
     );
 
-    // Generate falloff using params (instead of hardcoding values)
+    // Generate falloff using params
     auto falloffMap = falloff.GenerateFalloffMap(
         params.mapWidth, params.mapHeight, params.seed,
         params.minIslands, params.maxIslands,
@@ -26,15 +26,10 @@ sf::Image NoiseManager::GenerateIslandImage(const NoiseParams& params) {
         }
     }
 
-    // Tiles
-    std::vector<Tile> tilesVec = {
-        {"DeepWater", 0.1f, {0,0,128,255}},
-        {"ShallowWater", 0.2f, {0,0,255,255}},
-        {"Sand", 0.3f, {194,178,128,255}},
-        {"Grass", 0.5f, {0,255,0,255}},
-        {"DarkGrass", 0.7f, {0,128,0,255}},
-        {"Mountain", 1.0f, {128,128,128,255}}
-    };
+    // Use tiles from TileManager
+    std::vector<Tile> tilesVec = tileManager.GetTiles();
+
+    // Ensure tiles are sorted by height
     std::sort(tilesVec.begin(), tilesVec.end(),
         [](const Tile& a, const Tile& b) { return a.height < b.height; });
 

@@ -6,6 +6,8 @@
 #include "imgui.h"
 #include "imgui-SFML.h"
 #include <iostream>
+#include "TileManager.hpp"
+#include "SaveManager.hpp"
 
 int main() {
     // 1️ Create SFML window
@@ -15,13 +17,18 @@ int main() {
     ImGui::SFML::Init(window.getRenderWindow());
 
     NoiseParams params;
+    SaveManager::LoadParams(params);
+
+    TileManager tileManager;
+    SaveManager::LoadTiles(tileManager);
+
     NoiseParams prevParams = params; // store previous parameters
     NoiseManager noiseManager;
     UIManager uiManager;
 
-    // 3️⃣ Load initial texture
+    // 3️ Load initial texture
     sf::Texture texture;
-    if (!texture.loadFromImage(noiseManager.GenerateIslandImage(params))) {
+    if (!texture.loadFromImage(noiseManager.GenerateIslandImage(params,tileManager))) {
         std::cerr << "Failed to generate initial island texture\n";
         return 1;
     }
@@ -29,7 +36,7 @@ int main() {
 
     sf::Clock deltaClock;
 
-    // 4️ Setup view (for zoom/pan)
+    // 4️ Setup view for zoom/pan
     sf::View view(window.getRenderWindow().getDefaultView());
 
     // Mouse dragging state
@@ -47,22 +54,29 @@ int main() {
 
             // Handle window close
             if (event.type == sf::Event::Closed)
+            {
+                SaveManager::SaveParams(params);
+                SaveManager::SaveTiles(tileManager);
                 window.getRenderWindow().close();
+            }
+            // Move island with mouse drag (only if not interacting with ImGui)
+            if (!ImGui::GetIO().WantCaptureMouse) {
+                if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                    sf::Vector2i mousePos = sf::Mouse::getPosition(window.getRenderWindow());
 
-            // Mouse Dragging 
-            if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
-                dragging = true;
-                lastMousePos = sf::Mouse::getPosition(window.getRenderWindow());
-            }
-            if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left) {
-                dragging = false;
-            }
-            if (event.type == sf::Event::MouseMoved && dragging) {
-                sf::Vector2i mousePos = sf::Mouse::getPosition(window.getRenderWindow());
-                sf::Vector2i mousDir = lastMousePos - mousePos; // drag direction
-                view.move((float)mousDir.x, (float)mousDir.y);
-                window.getRenderWindow().setView(view);
-                lastMousePos = mousePos;
+                    if (!dragging) {
+                        dragging = true;
+                        lastMousePos = mousePos;
+                    }
+                    else {
+                        sf::Vector2i delta = mousePos - lastMousePos;
+                        view.move(-delta.x, -delta.y);
+                        lastMousePos = mousePos;
+                    }
+                }
+                else {
+                    dragging = false;
+                }
             }
 
             // Zoom with scroll
@@ -105,15 +119,15 @@ int main() {
         ImGui::SFML::Update(window.getRenderWindow(), deltaClock.restart());
 
         // Show UI and detect changes
-        bool changed = uiManager.Show(params);
+        UIResult results = uiManager.Show(params,tileManager);
 
         // Only regenerate island if parameters changed and autoUpdate is enabled
-        if ((changed || params.autoUpdate) && params != prevParams) {
+        if (results.regenerate || (params.autoUpdate && params != prevParams)) {
             if (params.randomiseSeed) {
                 params.seed = rand(); // generate a new random seed
             }
 
-            if (!texture.loadFromImage(noiseManager.GenerateIslandImage(params))) {
+            if (!texture.loadFromImage(noiseManager.GenerateIslandImage(params,tileManager))) {
                 std::cerr << "Failed to generate island texture\n";
             }
             else {
@@ -121,6 +135,16 @@ int main() {
             }
 
             prevParams = params; // update previous copy
+        }
+
+        if (results.savePNG) {
+            std::string filename = results.saveFilename.empty() ? "Island" : results.saveFilename;
+            filename += ".png";  // always add .png extension
+
+            if (!texture.copyToImage().saveToFile(filename))
+                std::cerr << "Failed to save PNG\n";
+            else
+                std::cout << "Island saved to " << filename << "\n";
         }
 
         // Draw frame
@@ -136,3 +160,5 @@ int main() {
 
     return 0;
 }
+
+

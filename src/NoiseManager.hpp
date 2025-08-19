@@ -3,9 +3,10 @@
 #include "NoiseParams.hpp"
 #include "Noise.hpp"         // your fractal noise generator
 #include "IslandFalloff.hpp" // your falloff generator
-#include "Tile.hpp"          // your tile definitions
+#include "TileManager.hpp"   
 
 class NoiseManager {
 public:
-    sf::Image GenerateIslandImage(const NoiseParams& params);
+    //pass TileManager so tiles can be customized
+    sf::Image GenerateIslandImage(const NoiseParams& params, TileManager& tileManager);
 };

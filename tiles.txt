@@ -1,0 +1,18 @@
+DeepWater
+0.1
+0 0 128 255
+ShallowWater
+0.2
+0 0 255 255
+Sand
+0.3
+194 178 128 255
+Grass
+0.5
+0 255 0 255
+DarkGrass
+0.7
+0 128 0 255
+Mountain
+1
+128 128 128 255
