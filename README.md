@@ -33,14 +33,14 @@ A C++ SFML project demonstrating **procedural island generation** with adjustabl
 ## Project Structure
 
 /src
-?? Noise.hpp/.cpp // Noise creating 
-?? IslandFallOff.hpp/.cpp // Falloff mask to combine with main noise 
-?? NoiseManager.hpp/.cpp // Procedural generation logic handler
-?? TileManager.hpp/.cpp // Tile definitions and editing
-?? UIManager.hpp/.cpp // ImGui interface
-?? SaveManager.hpp/.cpp // Saving/loading parameters, tiles
-?? NoiseParams.hpp // Noise parameter struct
-?? IslandGenerator.cpp // Main application loop
+- Noise.hpp/.cpp // Noise creating 
+- IslandFallOff.hpp/.cpp // Falloff mask to combine with main noise 
+- NoiseManager.hpp/.cpp // Procedural generation logic handler
+- TileManager.hpp/.cpp // Tile definitions and editing
+- UIManager.hpp/.cpp // ImGui interface
+- SaveManager.hpp/.cpp // Saving/loading parameters, tiles
+- NoiseParams.hpp // Noise parameter struct
+- IslandGenerator.cpp // Main application loop
 
 
 - **SFML**: Graphics rendering and window management.
@@ -57,8 +57,8 @@ A C++ SFML project demonstrating **procedural island generation** with adjustabl
 | Pan view | Left-click + drag |
 | Zoom view | Mouse scroll |
 | Reset view | `R` key |
-| Regenerate island | “Regenerate” button |
-| Save island | “Save PNG” button (filename input) |
+| Regenerate island | Regenerate button |
+| Save island | Save PNG button (filename input) |
 | Adjust tile colors | Tile Editor color pickers |
 | Adjust tile thresholds | Tile Editor sliders |
 
@@ -83,4 +83,4 @@ A C++ SFML project demonstrating **procedural island generation** with adjustabl
 ---
 
 ## License
-MIT License — free to use and modify.
+MIT License - free to use and modify.

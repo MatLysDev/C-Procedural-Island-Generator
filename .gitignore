@@ -17,8 +17,3 @@ x64/
 # Temporary files
 *.log
 *.tmp
-
-# Keep your source and headers
-# *.cpp, *.h
-# External library source (not binaries)
-external_libraries/
